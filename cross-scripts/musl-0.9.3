@@ -1,0 +1,14 @@
+url=http://www.etalabs.net/musl/releases/musl-$version.tar.gz
+
+out="$top/cross"
+
+CC=$A-unknown-linux-musl${tuple_suffix}-gcc
+
+config() {
+	./configure --target=$A-unknown-linux-musl${tuple_suffix} --prefix="$out"/$A-unknown-linux-musl${tuple_suffix}/ --syslibdir="$out"/lib \
+		--disable-gcc-wrapper --disable-shared
+}
+
+install() {
+	make install
+}

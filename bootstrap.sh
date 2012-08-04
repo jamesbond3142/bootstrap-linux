@@ -1,9 +1,9 @@
 #!/bin/sh -e
-
 export PATH=$(pwd)/cross/bin:$(pwd)/utils:$PATH
 
 build cross-scripts/binutils-*
-build cross-scripts/gcc-*
+build cross-scripts/gcc-* 
+build cross-scripts/gdb-* 
 
 export CC=""
 export CFLAGS="-Os"
@@ -20,9 +20,10 @@ build build-scripts/musl-*
 build build-scripts/binutils-*
 build build-scripts/gcc-*
 build build-scripts/make-*
-build build-scripts/gmp-*
-build build-scripts/mpfr-*
-build build-scripts/mpc-*
+#build build-scripts/gmp-*
+#build build-scripts/mpfr-*
+#build build-scripts/mpc-*
+
 build build-scripts/busybox-*
-build build-scripts/linux-*
+#build build-scripts/linux-*
 build build-scripts/finish

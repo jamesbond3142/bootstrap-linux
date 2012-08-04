@@ -2,6 +2,9 @@ url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
 patches=binutils-2.22-musl.diff
 
 config() {
-	./configure --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --prefix=/ \
-		--disable-werror --disable-nls
+	export host_configargs='LIBS=-lc'
+	#sed -i -e '1 s/^/#define ELIDE_CODE\n/' libiberty/getopt.c
+	./configure --host=$A-unknown-linux-musl${tuple_suffix} --target=$A-unknown-linux-musl${tuple_suffix} --prefix=/ \
+		--disable-werror --disable-nls --with-stage1-libs=-lc
+	export -n host_configargs 
 }

@@ -2,6 +2,8 @@
 
 : ${A:=$(uname -m)}
 export A
+tuple_suffix=""
+[ $A = "arm" ] && export tuple_suffix=eabi
 
 : ${top:=`pwd`}
 : ${out:=$top/out}
@@ -35,12 +37,12 @@ prep() {
 config() {
 	if [ -x configure ];then
 		munge-config-sub
-		./configure --prefix=/ --host=$A-unknown-linux-musl
+		./configure --prefix=/ --host=$A-unknown-linux-musl${tuple_suffix}
 	fi
 }
 
 build() {
-	make
+	make -j 4
 }
 
 install() {

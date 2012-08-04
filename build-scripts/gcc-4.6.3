@@ -2,11 +2,14 @@ url=http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.bz2
 patches=gcc-4.6.3-musl.diff
 
 config() {
+	export host_configargs='LIBS=-lc'
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+	sed -i -e '1 s/^/#define ELIDE_CODE\n/' libiberty/getopt.c
 	mkdir "$work/gcc-build"
 	cd "$work/gcc-build"
-	"$work/$unpack"/configure --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --enable-languages=c \
-		--prefix=/ --disable-libmudflap --disable-nls
+	"$work/$unpack"/configure --host=$A-unknown-linux-musl${tuple_suffix} --target=$A-unknown-linux-musl${tuple_suffix} --enable-languages=c \
+		--prefix=/ --disable-libmudflap --disable-nls --with-stage1-libs=-lc
+	export -n host_configargs 
 }
 
 install() {

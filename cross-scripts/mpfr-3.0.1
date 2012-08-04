@@ -5,7 +5,7 @@ out="$top/cross"
 config() {
 	munge-config-sub
 
-	./configure --prefix="$out"/$A-unknown-linux-musl --host=$A-unknown-linux-musl --disable-shared
+	./configure --prefix="$out"/$A-unknown-linux-musl${tuple_suffix} --host=$A-unknown-linux-musl${tuple_suffix} --disable-shared
 }
 
 install() {

@@ -9,10 +9,10 @@ config() {
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 	mkdir "$work/gcc-build"
 	cd "$work/gcc-build"
-	"$work/$unpack"/configure --target=$A-unknown-linux-musl --enable-languages=c --with-newlib \
+	"$work/$unpack"/configure --target=$A-unknown-linux-musl${tuple_suffix} --enable-languages=c --with-newlib \
 		--disable-multilib --disable-libssp --disable-libquadmath \
 		--disable-threads --disable-decimal-float --disable-shared \
-		--disable-libmudflap --disable-libgomp --prefix="$out"
+		--disable-libmudflap --disable-libgomp --prefix="$out" 
 }
 
 install() {
@@ -20,5 +20,5 @@ install() {
 	cd "$work/$unpack"
 	rm -rf "$work/gcc-build"
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
-	  `dirname $($A-unknown-linux-musl-gcc -print-libgcc-file-name)`/include-fixed/limits.h
+	  `dirname $($A-unknown-linux-musl${tuple_suffix}-gcc -print-libgcc-file-name)`/include-fixed/limits.h
 }

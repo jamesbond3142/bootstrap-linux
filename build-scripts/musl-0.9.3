@@ -1,0 +1,7 @@
+url=http://www.etalabs.net/musl/releases/musl-$version.tar.gz
+
+CC=$A-unknown-linux-musl${tuple_suffix}-gcc
+
+config() {
+	./configure --target=$A-unknown-linux-musl${tuple_suffix} --prefix=/ --disable-gcc-wrapper
+}

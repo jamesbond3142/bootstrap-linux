@@ -1,7 +1,7 @@
-name=binutils
+name=gdb
 
-url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
-patches=binutils-2.22-musl.diff
+url=http://mirrors.kernel.org/sources.redhat.com/$name/releases/$name-$version.tar.bz2
+patches=gdb-7.4.1-musl.diff
 out=$top/cross
 
 CFLAGS="$CFLAGS -D_GNU_SOURCE"

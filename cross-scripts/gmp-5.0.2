@@ -5,8 +5,8 @@ out="$top/cross"
 config() {
 	munge-config-sub configfsf.sub
 
-	CFLAGS="$CFLAGS -D_GNU_SOURCE -D_BSD_SOURCE -Wno-implicit" \
-		./configure --prefix="$out"/$A-unknown-linux-musl --host=$A-unknown-linux-musl --disable-shared
+	CFLAGS="$CFLAGS -D_GNU_SOURCE -D_BSD_SOURCE -Wno-implicit" LIBS="-lc" \
+		./configure --prefix="$out"/$A-unknown-linux-musl${tuple_suffix} --host=$A-unknown-linux-musl${tuple_suffix} --disable-shared
 }
 
 install() {

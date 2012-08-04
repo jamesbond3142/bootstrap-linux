@@ -1,21 +1,23 @@
 ARCH=$A
 [ "$ARCH" = "i686" ] && ARCH=i386
+KCONFIG=linux.config
+[ "$ARCH" = "arm" ] && KCONFIG=linux-arm.config
 
 url=http://www.kernel.org/pub/linux/kernel/v3.0/linux-$version.tar.bz2
 
 patches="linux-noperl-capflags.patch linux-noperl-headers.patch linux-noperl-timeconst.patch linux-posix-sed.patch"
 
 config() {
-	make allnoconfig ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG="$top/linux.config"
+	make allnoconfig ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl${tuple_suffix}-" \
+		HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG="$top/$KCONFIG"
 }
 
 build() {
-	make HOSTCFLAGS=-D_GNU_SOURCE ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
+	make HOSTCFLAGS=-D_GNU_SOURCE ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl${tuple_suffix}-" \
 		INSTALL_HDR_PATH=dest headers_install
 	find dest/include \( -name .install -o -name ..install.cmd \) -delete
 	
-	make HOSTCFLAGS=-D_GNU_SOURCE ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-"
+	make HOSTCFLAGS=-D_GNU_SOURCE ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl${tuple_suffix}-"
 }
 
 install() {
@@ -24,10 +26,10 @@ install() {
 	if [ "$ARCH" = "i386" -o "$ARCH" = "x86_64" ];then
 		cp arch/x86/boot/bzImage "$out"/boot/vmlinuz-$version
 	else
-		cp arch/$ARCH/boot/bzImage "$out"/boot/vmlinuz-$version
+		cp arch/$ARCH/boot/zImage "$out"/boot/vmlinuz-$version
 	fi
 
-	make INSTALL_MOD_PATH="$out" ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" modules_install
+	make INSTALL_MOD_PATH="$out" ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl${tuple_suffix}-" modules_install
 
 	mkdir -p "$out"/include/
 	cp -rv dest/include/* "$out"/include/
